@@ -589,9 +589,17 @@ function generateLevelTiles(totalTiles = 48) {
     }
     deck.sort(() => Math.random() - 0.5);
 
+    // 🛡️ ANDROID VE CANVAS BOYUT GÜVENCESİ
+    let cWidth = (canvas && canvas.width > 0) ? canvas.width : window.innerWidth;
+    let cHeight = (canvas && canvas.height > 0) ? canvas.height : window.innerHeight;
+
     let generatedTiles = [];
-    let startX = (canvas.width - (8 * (TILE_W + 8))) / 2 + 35;
-    let startY = (canvas.height - (4 * (TILE_H + 8))) / 2;
+    let startX = (cWidth - (8 * (TILE_W + 8))) / 2 + 35;
+    let startY = (cHeight - (4 * (TILE_H + 8))) / 2;
+
+    // Eğer koordinatlar negatif çıkarsa (ekran darlığı durumunda) güvenli merkeze sabitle
+    if (startX < 10) startX = 20;
+    if (startY < 10) startY = 50;
 
     let idx = 0;
     for(let r = 0; r < 4; r++) {
